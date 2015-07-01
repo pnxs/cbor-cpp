@@ -16,7 +16,7 @@
 
 #include "encoder.h"
 
-using namespace cbor;
+namespace cbor {
 
 
 encoder::encoder(output &out) {
@@ -146,4 +146,7 @@ void encoder::write_null() {
 
 void encoder::write_undefined() {
     _out->put_byte((unsigned char) 0xf7);
+}
+
+
 }

@@ -16,7 +16,7 @@
 
 #include "listener_debug.h"
 
-using namespace cbor;
+namespace cbor {
 
 void listener_debug::on_integer(int value) {
     printf("integer: %d\n", value);
@@ -76,4 +76,6 @@ void listener_debug::on_extra_tag(unsigned long long tag) {
 
 void listener_debug::on_extra_special(unsigned long long tag) {
     printf("extra special: %llu\n", tag);
+}
+
 }

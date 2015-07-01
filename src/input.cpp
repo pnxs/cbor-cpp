@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-using namespace cbor;
+namespace cbor {
 
 input::input(void *data, int size) {
     _data = (unsigned char *)data;
@@ -68,4 +68,6 @@ unsigned long long input::get_long() {
 void input::get_bytes(void *to, int count) {
     memcpy(to, _data + _offset, count);
     _offset += count;
+}
+
 }
