@@ -148,5 +148,18 @@ void encoder::write_undefined() {
     _out->put_byte((unsigned char) 0xf7);
 }
 
+void encoder::write_float(float value) {
+    uint8_t major_type = 7;
+    major_type <<= 5;
+    _out->put_byte( major_type | 26);
+    _out->put_bytes((unsigned char*)&value, sizeof(value));
+}
+
+void encoder::write_double(double value) {
+    uint8_t major_type = 7;
+    major_type <<= 5;
+    _out->put_byte( major_type | 27);
+    _out->put_bytes((unsigned char*)&value, sizeof(value));
+}
 
 }

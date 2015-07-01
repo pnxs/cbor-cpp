@@ -53,6 +53,10 @@ namespace cbor {
         void write_tag(const unsigned int tag);
 
         void write_special(int special);
+
+        void write_float(float value);
+
+        void write_double(double value);
         
         void write_null();
         

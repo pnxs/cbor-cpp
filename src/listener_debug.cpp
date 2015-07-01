@@ -58,6 +58,21 @@ void listener_debug::on_undefined() {
     printf("special: undefined\n");
 }
 
+void listener_debug::on_half(float v)
+{
+    printf("special: half %f\n", v);
+}
+
+void listener_debug::on_float(float v)
+{
+    printf("special: float: %f\n", v);
+}
+
+void listener_debug::on_double(double v)
+{
+    printf("special: double %f\n", v);
+}
+
 void listener_debug::on_error(const char *error) {
     printf("error: %s\n", error);
 }

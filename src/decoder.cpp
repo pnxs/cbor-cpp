@@ -407,11 +407,12 @@ void decoder::run() {
                         _state = STATE_TYPE;
                         break;
                     case 4:
-                        _listener->on_special(_in->get_int());
+                        _listener->on_float(_in->get_float());
                         _state = STATE_TYPE;
                         break;
                     case 8:
-                        _listener->on_extra_special(_in->get_long());
+
+                        _listener->on_double(_in->get_double());
                         _state = STATE_TYPE;
                         break;
                 }

@@ -38,6 +38,10 @@ namespace cbor {
 
         unsigned long long get_long();
 
+        float get_float();
+
+        double get_double();
+
         void get_bytes(void *to, int count);
     };
 }

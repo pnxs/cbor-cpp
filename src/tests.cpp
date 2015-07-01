@@ -34,6 +34,8 @@ int main() {
             encoder.write_bool(false);
             encoder.write_null();
             encoder.write_undefined();
+            encoder.write_float(1.5);
+            encoder.write_double(3.14152443);
         }
     }
 

@@ -42,6 +42,12 @@ namespace cbor {
         
         virtual void on_undefined() = 0;
 
+        virtual void on_half(float v) = 0;
+
+        virtual void on_float(float v) = 0;
+
+        virtual void on_double(double v) = 0;
+
         virtual void on_error(const char *error) = 0;
 
         virtual void on_extra_integer(unsigned long long value, int sign) {
