@@ -19,7 +19,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-using namespace cbor;
+namespace cbor {
 
 
 void output_dynamic::init(unsigned int initalCapacity) {
@@ -67,3 +67,5 @@ void output_dynamic::put_bytes(const unsigned char *data, int size) {
     memcpy(_buffer + _offset, data, size);
     _offset += size;
 }
+
+} //namespace cbor

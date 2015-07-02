@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -13,10 +14,6 @@
 	   See the License for the specific language governing permissions and
 	   limitations under the License.
 */
-
-
-#ifndef __CborEncoder_H_
-#define __CborEncoder_H_
 
 #include "output.h"
 #include <string>
@@ -62,11 +59,10 @@ namespace cbor {
         
         void write_undefined();
 
+
     private:
         void write_type_value(int major_type, unsigned int value);
 
         void write_type_value(int major_type, unsigned long long value);
     };
 }
-
-#endif //__CborEncoder_H_

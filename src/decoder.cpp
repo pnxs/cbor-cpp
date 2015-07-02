@@ -19,7 +19,8 @@
 
 #include <limits.h>
 
-using namespace cbor;
+
+namespace cbor {
 
 decoder::decoder(input &in) {
     _in = &in;
@@ -425,3 +426,4 @@ void decoder::run() {
     }
 }
 
+}

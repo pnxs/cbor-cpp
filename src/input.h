@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -13,9 +14,6 @@
 	   See the License for the specific language governing permissions and
 	   limitations under the License.
 */
-
-#ifndef CBOR_CPP_INPUT_H
-#define CBOR_CPP_INPUT_H
 
 namespace cbor {
     class input {
@@ -45,5 +43,3 @@ namespace cbor {
         void get_bytes(void *to, int count);
     };
 }
-
-#endif // CBOR_CPP_INPUT_H

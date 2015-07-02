@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -14,9 +15,6 @@
 	   limitations under the License.
 */
 
-
-#ifndef __CborDecoder_H_
-#define __CborDecoder_H_
 
 #include "listener.h"
 #include "input.h"
@@ -52,5 +50,3 @@ namespace cbor {
     };
 }
 
-
-#endif //__CborDecoder_H_

@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -14,10 +15,6 @@
 	   limitations under the License.
 */
 
-
-#ifndef __CborOutput_H_
-#define __CborOutput_H_
-
 namespace cbor {
     class output {
     public:
@@ -30,5 +27,3 @@ namespace cbor {
         virtual void put_bytes(const unsigned char *data, int size) = 0;
     };
 }
-
-#endif //__CborOutput_H_

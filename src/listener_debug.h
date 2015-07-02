@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -13,9 +14,6 @@
 	   See the License for the specific language governing permissions and
 	   limitations under the License.
 */
-
-#ifndef __listener_debug_H_
-#define __listener_debug_H_
 
 #include <string>
 
@@ -59,5 +57,3 @@ namespace cbor {
         virtual void on_extra_special(unsigned long long tag);
     };
 }
-
-#endif //__listener_debug_H_

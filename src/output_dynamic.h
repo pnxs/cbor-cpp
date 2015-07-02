@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -13,10 +14,6 @@
 	   See the License for the specific language governing permissions and
 	   limitations under the License.
 */
-
-#ifndef __CborDynamicOutput_H_
-#define __CborDynamicOutput_H_
-
 
 #include "output.h"
 
@@ -46,6 +43,3 @@ namespace cbor {
     };
 }
 
-
-
-#endif //__CborDynamicOutput_H_

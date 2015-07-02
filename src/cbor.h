@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -14,9 +15,6 @@
 	   limitations under the License.
 */
 
-#ifndef CBOR_CPP_CBOR_H
-#define CBOR_CPP_CBOR_H
-
 #include "input.h"
 #include "encoder.h"
 #include "decoder.h"
@@ -25,4 +23,3 @@
 #include "output_dynamic.h"
 #include "listener_debug.h"
 
-#endif //CBOR_CPP_CBOR_H

@@ -19,7 +19,7 @@
 
 #include <string.h>
 
-using namespace cbor;
+namespace cbor {
 
 output_static::output_static(unsigned int capacity) {
     this->_capacity = capacity;
@@ -55,3 +55,5 @@ unsigned char *output_static::getData() {
 unsigned int output_static::getSize() {
     return _offset;
 }
+
+} // namespace cbor

@@ -1,3 +1,4 @@
+#pragma once
 /*
    Copyright 2014-2015 Stanislav Ovsyannikov
 
@@ -13,9 +14,6 @@
 	   See the License for the specific language governing permissions and
 	   limitations under the License.
 */
-
-#ifndef CBOR_CPP_LISTENER_H
-#define CBOR_CPP_LISTENER_H
 
 #include <string>
 
@@ -61,5 +59,3 @@ namespace cbor {
     };
 }
 
-
-#endif // CBOR_CPP_LISTENER_H
