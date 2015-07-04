@@ -56,4 +56,8 @@ unsigned int output_static::size() {
     return _offset;
 }
 
+void output_static::clear() {
+    this->_offset = 0;
+}
+
 } // namespace cbor

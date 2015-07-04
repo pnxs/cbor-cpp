@@ -35,6 +35,8 @@ namespace cbor {
         virtual void put_byte(unsigned char value);
 
         virtual void put_bytes(const unsigned char *data, int size);
+
+        void clear();
     };
 }
 
