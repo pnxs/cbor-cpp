@@ -15,15 +15,17 @@
 */
 
 #include <stdio.h>
-
+#include <iostream>
 #include "cbor.h"
+
+using std::cout;
 
 int main() {
     cbor::output_dynamic output;
 
     { //encoding
         cbor::encoder encoder(output);
-        encoder.write_array(9);
+        encoder.write_array(11);
         {
             encoder.write_int(123);
             encoder.write_string("bar");
@@ -39,11 +41,58 @@ int main() {
         }
     }
 
+    {
+        cbor::input input(output.data(), output.size());
+        cbor::decoder decoder(input);
+
+        auto type = decoder.peekType();
+        cout << "Type:\n";
+        cout << " major: " << (int)type.major() << "\n";
+        cout << " Size.: " << type.size() << "\n";
+
+        size_t arrSize = decoder.read_array();
+
+        cout << "Array with " << arrSize << " elements\n";
+
+        for (int i = 0; i < arrSize; ++i)
+        {
+            type = decoder.peekType();
+            cout << "[" << i << "]\n";
+            cout << "Type:\n";
+            cout << " major: " << (int)type.major() << "\n";
+            cout << " Size.: " << type.size() << "\n";
+
+            switch(type.major())
+            {
+                case cbor::majorType::unsignedInteger:
+                    cout << "Int: " << decoder.read_uint() << "\n";
+                    break;
+                case cbor::majorType::signedInteger:
+                    cout << "Int: " << decoder.read_int() << "\n";
+                    break;
+                case cbor::majorType::floatingPoint:
+                    if (type.size() == 4)
+                        cout << "Float: " << decoder.read_float() << "\n";
+                    else
+                        cout << "Double: " << decoder.read_double() << "\n";
+                    break;
+                default:
+                    decoder.skip();
+            }
+
+
+
+
+        }
+    }
+
+    if (0)
     { // decoding
         cbor::input input(output.data(), output.size());
         cbor::listener_debug listener;
         cbor::decoder decoder(input, listener);
-        decoder.run();
+        //decoder.run();
+        decoder.traverse();
     }
 
     return 0;
