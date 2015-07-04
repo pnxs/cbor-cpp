@@ -27,43 +27,59 @@ encoder::~encoder() {
 
 }
 
+inline
 void encoder::write_type_value(int major_type, unsigned int value) {
     major_type <<= 5;
-    if(value < 24) {
+    if (value < 24) {
         _out->put_byte((unsigned char) (major_type | value));
-    } else if(value < 256) {
+    } else if (value < 256) {
         _out->put_byte((unsigned char) (major_type | 24));
         _out->put_byte((unsigned char) value);
-    } else if(value < 65536) {
+    } else if (value < 65536) {
         _out->put_byte((unsigned char) (major_type | 25));
         _out->put_byte((unsigned char) (value >> 8));
         _out->put_byte((unsigned char) value);
     } else {
         _out->put_byte((unsigned char) (major_type | 26));
+#if 1
         _out->put_byte((unsigned char) (value >> 24));
         _out->put_byte((unsigned char) (value >> 16));
         _out->put_byte((unsigned char) (value >> 8));
         _out->put_byte((unsigned char) value);
+#else
+        uint32_t t = htobe32(value);
+        _out->put_bytes((unsigned char*)&t, sizeof(t));
+#endif
+
+
     }
 }
 
+inline
 void encoder::write_type_value(int major_type, unsigned long long value) {
     major_type <<= 5;
-    if(value < 24ULL) {
+    if (value < 24ULL) {
         _out->put_byte((unsigned char) (major_type | value));
-    } else if(value < 256ULL) {
+    } else if (value < 256ULL) {
         _out->put_byte((unsigned char) (major_type | 24));
         _out->put_byte((unsigned char) value);
-    } else if(value < 65536ULL) {
+    } else if (value < 65536ULL) {
         _out->put_byte((unsigned char) (major_type | 25));
         _out->put_byte((unsigned char) (value >> 8));
-    } else if(value < 4294967296ULL) {
+        _out->put_byte((unsigned char) value);
+    } else if (value < 4294967296ULL) {
         _out->put_byte((unsigned char) (major_type | 26));
+#if 1
         _out->put_byte((unsigned char) (value >> 24));
         _out->put_byte((unsigned char) (value >> 16));
         _out->put_byte((unsigned char) (value >> 8));
         _out->put_byte((unsigned char) value);
+#else
+        uint32_t t = htobe32(value);
+        _out->put_bytes((unsigned char*)&t, sizeof(t));
+#endif
     } else {
+#if 0
         _out->put_byte((unsigned char) (major_type | 27));
         _out->put_byte((unsigned char) (value >> 56));
         _out->put_byte((unsigned char) (value >> 48));
@@ -73,6 +89,10 @@ void encoder::write_type_value(int major_type, unsigned long long value) {
         _out->put_byte((unsigned char) (value >> 16));
         _out->put_byte((unsigned char) (value >> 8));
         _out->put_byte((unsigned char) value);
+#else
+        uint64_t t = htobe64(value);
+        _out->put_bytes((unsigned char*)&t, sizeof(t));
+#endif
     }
 }
 
@@ -85,7 +105,7 @@ void encoder::write_int(unsigned long long value) {
 }
 
 void encoder::write_int(long long value) {
-    if(value < 0) {
+    if (value < 0) {
         write_type_value(1, (unsigned long long) -value);
     } else {
         write_type_value(0, (unsigned long long) value);
@@ -93,7 +113,7 @@ void encoder::write_int(long long value) {
 }
 
 void encoder::write_int(int value) {
-    if(value < 0) {
+    if (value < 0) {
         write_type_value(1, (unsigned int) -value);
     } else {
         write_type_value(0, (unsigned int) value);
