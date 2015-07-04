@@ -35,6 +35,52 @@ namespace cbor {
         STATE_ERROR
     } decoder_state;
 
+
+    enum class majorType
+    {
+        unsignedInteger,
+        signedInteger,
+        byteString,
+        utf8String,
+        array,
+        map,
+        tag,
+        floatingPoint,
+        simpleValue
+    };
+
+    enum class simpleValue
+    {
+        False,
+        True,
+        Null,
+        Undefined
+    };
+
+
+    class type
+    {
+        majorType m_major;
+        size_t m_size;
+        uint8_t m_value;
+    public:
+        type(const majorType& mt, const size_t& size, uint8_t v = 0):m_major(mt), m_size(size), m_value(v) {}
+        majorType major() const { return m_major; }
+        size_t size() const { return m_size; }
+        uint8_t directValue() const { return m_value; }
+    };
+
+/*
+0: uint8_t, uint16_t, uint32_t, uint64_t
+1: int8_t, int16_t, int32_t, int64_t
+2: string
+3: string // utf-8
+4: vector
+5: map (struct)
+6: tag
+7: half, float, double, bool, nullptr, break
+*/
+
     class decoder {
     private:
         listener *_listener;
@@ -47,6 +93,23 @@ namespace cbor {
         ~decoder();
         void run();
         void set_listener(listener &listener_instance);
+        void traverse();
+
+        type peekType() const;
+
+        size_t read_map();
+        size_t read_array();
+
+        uint32_t read_uint();
+        uint64_t read_ulong();
+
+        int32_t read_int();
+        int64_t read_long();
+
+        float read_float();
+        double read_double();
+
+        void skip();
     };
 }
 
