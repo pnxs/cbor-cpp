@@ -149,17 +149,42 @@ void encoder::write_undefined() {
 }
 
 void encoder::write_float(float value) {
-    uint8_t major_type = 7;
-    major_type <<= 5;
-    _out->put_byte( major_type | 26);
-    _out->put_bytes((unsigned char*)&value, sizeof(value));
+    static_assert(sizeof(uint32_t) == sizeof(float), "float is not 32 bit");
+    uint8_t major_type = (7 << 5);
+    _out->put_byte(major_type | 26);
+
+#if 0
+    uint32_t *t = (uint32_t*)&value;
+    _out->put_byte((unsigned char) (*t >> 24));
+    _out->put_byte((unsigned char) (*t >> 16));
+    _out->put_byte((unsigned char) (*t >> 8));
+    _out->put_byte((unsigned char) *t);
+#else
+    uint32_t t = htobe32(*(uint32_t*)&value);
+    _out->put_bytes((unsigned char*)&t, sizeof(t));
+#endif
 }
 
 void encoder::write_double(double value) {
-    uint8_t major_type = 7;
-    major_type <<= 5;
+    static_assert(sizeof(uint64_t) == sizeof(double), "double is not 64 bit");
+    uint8_t major_type = (7 << 5);
+    _out->put_byte(major_type | 27);
+
+#if 0
+    uint64_t *t = (uint64_t*)&value;
     _out->put_byte( major_type | 27);
-    _out->put_bytes((unsigned char*)&value, sizeof(value));
+    _out->put_byte((unsigned char) (*t >> 56));
+    _out->put_byte((unsigned char) (*t >> 48));
+    _out->put_byte((unsigned char) (*t >> 40));
+    _out->put_byte((unsigned char) (*t >> 32));
+    _out->put_byte((unsigned char) (*t >> 24));
+    _out->put_byte((unsigned char) (*t >> 16));
+    _out->put_byte((unsigned char) (*t >> 8));
+    _out->put_byte((unsigned char) *t);
+#else
+    uint64_t t = htobe64(*(uint64_t*)&value);
+    _out->put_bytes((unsigned char*)&t, sizeof(t));
+#endif
 }
 
 }

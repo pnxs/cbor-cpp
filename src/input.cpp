@@ -66,17 +66,13 @@ unsigned long long input::get_long() {
 }
 
 float input::get_float() {
-    float value;
-    memcpy(&value, &_data[_offset], sizeof(float));
-    _offset += sizeof(float);
-    return value;
+    auto t = get_int();
+    return *(float*)&t;
 }
 
 double input::get_double() {
-    double value;
-    memcpy(&value, &_data[_offset], sizeof(double));
-    _offset += sizeof(double);
-    return value;
+    auto t = get_long();
+    return *(double*)&t;
 }
 
 void input::get_bytes(void *to, int count) {
