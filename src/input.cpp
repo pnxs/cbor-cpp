@@ -35,6 +35,12 @@ bool input::has_bytes(int count) {
     return _size - _offset >= count;
 }
 
+void input::advance(int bytes)
+{
+    cout << "advance: " << bytes << "\n";
+    _offset += bytes;
+}
+
 unsigned char input::get_byte() {
     return _data[_offset++];
 }
@@ -78,6 +84,11 @@ double input::get_double() {
 void input::get_bytes(void *to, int count) {
     memcpy(to, _data + _offset, count);
     _offset += count;
+}
+
+uint8_t input::peek_byte() const
+{
+    return _data[_offset];
 }
 
 }

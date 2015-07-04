@@ -26,14 +26,15 @@ namespace cbor {
 
         ~input();
 
+        void advance(int bytes);
+
+        uint8_t peek_byte() const;
+
         bool has_bytes(int count);
 
         unsigned char get_byte();
-
         unsigned short get_short();
-
         unsigned int get_int();
-
         unsigned long long get_long();
 
         float get_float();
