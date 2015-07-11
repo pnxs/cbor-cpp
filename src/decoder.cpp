@@ -1053,4 +1053,30 @@ double decoder::read_double()
     return _in->get_double();
 }
 
+std::string decoder::read_string()
+{
+    auto type = peekType();
+    if (type.major() != majorType::byteString && type.major() != majorType::utf8String)
+        throw std::runtime_error("wrong type");
+    _in->advance(1);
+
+    size_t stringSize = 0;
+
+    switch (type.size())
+    {
+        case 0: stringSize = type.directValue(); break;
+        case 1: stringSize = _in->get_byte(); break;
+        case 2: stringSize = _in->get_short(); break;
+        case 4: stringSize = _in->get_int(); break;
+        case 8: stringSize = _in->get_long(); break;
+    }
+
+    std::string tmpStr;
+    tmpStr.resize(stringSize);
+
+    _in->get_bytes((char*)tmpStr.data(), stringSize);
+
+    return std::move(tmpStr);
+}
+
 }

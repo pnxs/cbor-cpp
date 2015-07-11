@@ -109,6 +109,8 @@ namespace cbor {
         float read_float();
         double read_double();
 
+        std::string read_string();
+
         void skip();
     };
 }
