@@ -27,7 +27,7 @@ void listener_debug::on_bytes(unsigned char *data, int size) {
 }
 
 void listener_debug::on_string(std::string &str) {
-    printf("string: '%.*s'\n", (int)str.size(), str.c_str());
+    printf("string: '%.*s'\n", (int) str.size(), str.c_str());
 }
 
 void listener_debug::on_array(int size) {
@@ -78,7 +78,7 @@ void listener_debug::on_error(const char *error) {
 }
 
 void listener_debug::on_extra_integer(unsigned long long value, int sign) {
-    if(sign >= 0) {
+    if (sign >= 0) {
         printf("extra integer: %llu\n", value);
     } else {
         printf("extra integer: -%llu\n", value);

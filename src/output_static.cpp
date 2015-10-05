@@ -32,7 +32,7 @@ output_static::~output_static() {
 }
 
 void output_static::put_byte(unsigned char value) {
-    if(_offset < _capacity) {
+    if (_offset < _capacity) {
         _buffer[_offset++] = value;
     } else {
         logger("buffer overflow error");
@@ -40,7 +40,7 @@ void output_static::put_byte(unsigned char value) {
 }
 
 void output_static::put_bytes(const unsigned char *data, int size) {
-    if(_offset + size - 1 < _capacity) {
+    if (_offset + size - 1 < _capacity) {
         memcpy(_buffer + _offset, data, size);
         _offset += size;
     } else {

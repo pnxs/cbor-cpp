@@ -15,6 +15,9 @@
 	   limitations under the License.
 */
 
+#include <bits/types.h>
+#include <cstdint>
+
 namespace cbor {
     class input {
     private:
@@ -25,6 +28,8 @@ namespace cbor {
         input(void *data, int size);
 
         ~input();
+
+        int offset() const { return _offset; }
 
         void advance(int bytes);
 

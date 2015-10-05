@@ -19,10 +19,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <iostream>
+using std::cout;
+
 namespace cbor {
 
 input::input(void *data, int size) {
-    _data = (unsigned char *)data;
+    _data = (unsigned char *) data;
     _size = size;
     _offset = 0;
 }
@@ -53,20 +56,24 @@ unsigned short input::get_short() {
 
 unsigned int input::get_int() {
     unsigned int value = \
-            ((unsigned int) _data[_offset    ] << 24) |
+            ((unsigned int) _data[_offset] << 24) |
             ((unsigned int) _data[_offset + 1] << 16) |
-            ((unsigned int) _data[_offset + 2] << 8 ) |
+            ((unsigned int) _data[_offset + 2] << 8) |
             ((unsigned int) _data[_offset + 3]);
     _offset += 4;
     return value;
 }
 
+
 unsigned long long input::get_long() {
     unsigned long long value = ((unsigned long long) _data[_offset] << 56) |
-            ((unsigned long long) _data[_offset +1] << 48) | ((unsigned long long) _data[_offset +2] << 40) |
-            ((unsigned long long) _data[_offset +3] << 32) | ((unsigned long long) _data[_offset +4] << 24) |
-            ((unsigned long long) _data[_offset +5] << 16) | ((unsigned long long) _data[_offset +6] << 8 ) |
-            ((unsigned long long) _data[_offset +7]);
+                               ((unsigned long long) _data[_offset + 1] << 48) |
+                               ((unsigned long long) _data[_offset + 2] << 40) |
+                               ((unsigned long long) _data[_offset + 3] << 32) |
+                               ((unsigned long long) _data[_offset + 4] << 24) |
+                               ((unsigned long long) _data[_offset + 5] << 16) |
+                               ((unsigned long long) _data[_offset + 6] << 8) |
+                               ((unsigned long long) _data[_offset + 7]);
     _offset += 8;
     return value;
 }

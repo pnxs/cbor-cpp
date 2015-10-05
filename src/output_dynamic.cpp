@@ -49,7 +49,7 @@ unsigned int output_dynamic::size() {
 }
 
 void output_dynamic::put_byte(unsigned char value) {
-    if(_offset < _capacity) {
+    if (_offset < _capacity) {
         _buffer[_offset++] = value;
     } else {
         _capacity *= 2;
@@ -59,7 +59,7 @@ void output_dynamic::put_byte(unsigned char value) {
 }
 
 void output_dynamic::put_bytes(const unsigned char *data, int size) {
-    while(_offset + size > _capacity) {
+    while (_offset + size > _capacity) {
         _capacity *= 2;
         _buffer = (unsigned char *) realloc(_buffer, _capacity);
     }

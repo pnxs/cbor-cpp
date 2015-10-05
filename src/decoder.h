@@ -32,7 +32,7 @@ namespace cbor {
         STATE_MAP,
         STATE_TAG,
         STATE_SPECIAL,
-        STATE_ERROR
+        STATE_ERROR //< A state
     } decoder_state;
 
 
@@ -95,6 +95,8 @@ namespace cbor {
         void set_listener(listener &listener_instance);
         void traverse();
 
+        size_t offset() const { return _in->offset(); }
+
         type peekType() const;
 
         size_t read_map();
@@ -110,6 +112,8 @@ namespace cbor {
         double read_double();
 
         std::string read_string();
+
+        bool read_bool();
 
         void skip();
     };
