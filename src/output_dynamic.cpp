@@ -72,4 +72,10 @@ std::string output_dynamic::toString() const
     return hexlify(_buffer, _offset);
 }
 
+void output_dynamic::clear()
+{
+    _offset = 0;
+
+}
+
 } //namespace cbor

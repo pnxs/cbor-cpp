@@ -28,6 +28,8 @@ namespace cbor {
 
         output_dynamic(unsigned int inital_capacity);
 
+        output_dynamic(const output_dynamic&) = delete;
+
         ~output_dynamic();
 
         virtual const unsigned char *data() const;
@@ -38,7 +40,10 @@ namespace cbor {
 
         virtual void put_bytes(const unsigned char *data, int size);
 
+        void clear();
+
         std::string toString() const;
+
     private:
         void init(unsigned int initalCapacity);
     };
