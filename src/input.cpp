@@ -40,7 +40,7 @@ bool input::has_bytes(int count) {
 
 void input::advance(int bytes)
 {
-    cout << "advance: " << bytes << "\n";
+    //cout << "advance: " << bytes << "\n";
     _offset += bytes;
 }
 
