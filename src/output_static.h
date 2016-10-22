@@ -28,9 +28,9 @@ namespace cbor {
 
         ~output_static();
 
-        virtual unsigned char *data();
+        virtual const unsigned char *data() const override;
 
-        virtual unsigned int size();
+        virtual unsigned int size() const override;
 
         virtual void put_byte(unsigned char value);
 

@@ -30,9 +30,9 @@ namespace cbor {
 
         ~output_dynamic();
 
-        virtual unsigned char *data();
+        virtual const unsigned char *data() const;
 
-        virtual unsigned int size();
+        virtual unsigned int size() const;
 
         virtual void put_byte(unsigned char value);
 

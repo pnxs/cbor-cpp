@@ -40,11 +40,11 @@ output_dynamic::~output_dynamic() {
     delete[] _buffer;
 }
 
-unsigned char *output_dynamic::data() {
+const unsigned char *output_dynamic::data() const {
     return _buffer;
 }
 
-unsigned int output_dynamic::size() {
+unsigned int output_dynamic::size() const {
     return _offset;
 }
 

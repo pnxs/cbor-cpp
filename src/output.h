@@ -18,9 +18,9 @@
 namespace cbor {
     class output {
     public:
-        virtual unsigned char *data() = 0;
+        virtual const unsigned char *data() const = 0;
 
-        virtual unsigned int size() = 0;
+        virtual unsigned int size() const = 0;
 
         virtual void put_byte(unsigned char value) = 0;
 
