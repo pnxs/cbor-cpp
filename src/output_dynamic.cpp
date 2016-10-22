@@ -67,5 +67,9 @@ void output_dynamic::put_bytes(const unsigned char *data, int size) {
     memcpy(_buffer + _offset, data, size);
     _offset += size;
 }
+std::string output_dynamic::toString() const
+{
+    return hexlify(_buffer, _offset);
+}
 
 } //namespace cbor

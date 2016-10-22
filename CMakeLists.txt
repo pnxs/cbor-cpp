@@ -11,6 +11,7 @@ set(SOURCE_FILES
     src/listener_debug.cpp
     src/output_dynamic.cpp
     src/output_static.cpp
+    src/buffer.cpp
     )
 
 set(TEST_SOURCE_FILES

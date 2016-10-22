@@ -60,4 +60,9 @@ void output_static::clear() {
     this->_offset = 0;
 }
 
+std::string output_static::toString() const
+{
+    return hexlify(_buffer, _capacity);
+}
+
 } // namespace cbor

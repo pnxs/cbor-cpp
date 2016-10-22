@@ -15,8 +15,10 @@
 	   limitations under the License.
 */
 
+#include "buffer.h"
+
 namespace cbor {
-    class output {
+    class output: public buffer {
     public:
         virtual const unsigned char *data() const = 0;
 

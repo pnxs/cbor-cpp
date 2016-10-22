@@ -17,9 +17,10 @@
 
 #include <bits/types.h>
 #include <cstdint>
+#include "buffer.h"
 
 namespace cbor {
-    class input {
+    class input: public buffer {
     private:
         unsigned char *_data;
         int _size;
@@ -37,6 +38,8 @@ namespace cbor {
         uint8_t peek_byte() const;
 
         bool has_bytes(int count);
+
+        std::string toString() const;
 
         unsigned char get_byte();
         unsigned short get_short();

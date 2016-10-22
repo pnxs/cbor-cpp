@@ -105,4 +105,9 @@ uint8_t input::peek_byte() const
     return _data[_offset];
 }
 
+std::string input::toString() const
+{
+    return hexlify(_data, _size);
+}
+
 }

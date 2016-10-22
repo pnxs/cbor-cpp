@@ -37,6 +37,8 @@ namespace cbor {
         virtual void put_bytes(const unsigned char *data, int size);
 
         void clear();
+
+        std::string toString() const;
     };
 }
 

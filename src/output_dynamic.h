@@ -38,6 +38,7 @@ namespace cbor {
 
         virtual void put_bytes(const unsigned char *data, int size);
 
+        std::string toString() const;
     private:
         void init(unsigned int initalCapacity);
     };
