@@ -25,6 +25,7 @@ namespace cbor {
         int _size;
         int _offset;
     public:
+        input(const void *data, int size);
         input(void *data, int size);
 
         ~input();

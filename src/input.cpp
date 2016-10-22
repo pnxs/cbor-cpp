@@ -24,7 +24,14 @@ using std::cout;
 
 namespace cbor {
 
-input::input(void *data, int size) {
+input::input(void *data, int size)
+{
+    _data = (unsigned char *) data;
+    _size = size;
+    _offset = 0;
+}
+
+input::input(const void *data, int size) {
     _data = (unsigned char *) data;
     _size = size;
     _offset = 0;
