@@ -1011,8 +1011,8 @@ uint64_t decoder::read_ulong()
 int32_t decoder::read_int()
 {
     auto type = peekType();
-    if (type.major() != majorType::signedInteger)
-        throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
+    if (type.major() != majorType::signedInteger && type.major() != majorType::unsignedInteger)
+        throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
     switch (type.size())
@@ -1035,7 +1035,7 @@ int64_t decoder::read_long()
 {
     auto type = peekType();
     if (type.major() != majorType::signedInteger)
-        throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
+        throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
     switch (type.size())
@@ -1058,7 +1058,7 @@ float decoder::read_float()
 {
     auto type = peekType();
     if (type.major() != majorType::floatingPoint and type.size() == 4)
-        throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
+        throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
     return _in->get_float();
 }
@@ -1067,7 +1067,7 @@ double decoder::read_double()
 {
     auto type = peekType();
     if (type.major() != majorType::floatingPoint and type.size() == 8)
-        throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
+        throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
     return _in->get_double();
 }
@@ -1076,7 +1076,7 @@ std::string decoder::read_string()
 {
     auto type = peekType();
     if (type.major() != majorType::byteString && type.major() != majorType::utf8String)
-        throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
+        throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
     size_t stringSize = 0;
@@ -1102,7 +1102,7 @@ bool decoder::read_bool()
 {
     auto type = peekType();
     if (type.major() != majorType::simpleValue or (type.directValue() != 20 and type.directValue() != 21) )
-        throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
+        throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
     return type.directValue() == 21;
