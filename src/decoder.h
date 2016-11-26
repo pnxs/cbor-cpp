@@ -18,6 +18,7 @@
 
 #include "listener.h"
 #include "input.h"
+#include <stdexcept>
 
 namespace cbor {
     typedef enum {
@@ -87,6 +88,25 @@ namespace cbor {
         input *_in;
         decoder_state _state;
         int _currentLength;
+
+        template<typename T>
+        T get_value(type t)
+        {
+            if (t.size() > sizeof(T))
+            {
+                throw std::runtime_error("value does not fit into receiver ");
+            }
+
+            switch (t.size())
+            {
+                case 0: return t.directValue();
+                case 1: return _in->get_byte();
+                case 2: return _in->get_short();
+                case 4: return _in->get_int();
+                case 8: return _in->get_long();
+            }
+        }
+
     public:
         decoder(input &in);
         decoder(input &in, listener &listener);

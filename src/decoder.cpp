@@ -847,21 +847,7 @@ size_t decoder::read_map()
         throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
-
-    switch (type.size())
-    {
-        case 0:
-            return type.directValue();
-        case 1:
-            return _in->get_byte();
-        case 2:
-            return _in->get_short();
-        case 4:
-            return _in->get_int();
-        case 8:
-            return _in->get_long();
-    }
-    return 0;
+    return get_value<size_t>(type);
 }
 
 size_t decoder::read_array()
@@ -871,20 +857,7 @@ size_t decoder::read_array()
         throw std::runtime_error("wrong type" + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
-    switch (type.size())
-    {
-        case 0:
-            return type.directValue();
-        case 1:
-            return _in->get_byte();
-        case 2:
-            return _in->get_short();
-        case 4:
-            return _in->get_int();
-        case 8:
-            return _in->get_long();
-    }
-    return 0;
+    return get_value<size_t>(type);
 }
 
 void decoder::skip()
@@ -903,31 +876,13 @@ void decoder::skip()
         case majorType::byteString:
         case majorType::utf8String:
         {
-            size_t typeSize = 0;
-
-            switch (type.size())
-            {
-                case 0: typeSize = type.directValue(); break;
-                case 1: typeSize = _in->get_byte(); break;
-                case 2: typeSize = _in->get_short(); break;
-                case 4: typeSize = _in->get_int(); break;
-                case 8: typeSize = _in->get_long(); break;
-            }
+            size_t typeSize = get_value<size_t>(type);
             _in->advance(typeSize + type.size());
         }
             break;
         case majorType::array:
         {
-            size_t typeSize = 0;
-
-            switch (type.size())
-            {
-                case 0: typeSize = type.directValue(); break;
-                case 1: typeSize = _in->get_byte(); break;
-                case 2: typeSize = _in->get_short(); break;
-                case 4: typeSize = _in->get_int(); break;
-                case 8: typeSize = _in->get_long(); break;
-            }
+            size_t typeSize = get_value<size_t>(type);
 
             while(typeSize--)
             {
@@ -938,16 +893,7 @@ void decoder::skip()
         break;
         case majorType::map:
         {
-            size_t typeSize = 0;
-
-            switch (type.size())
-            {
-                case 0: typeSize = type.directValue(); break;
-                case 1: typeSize = _in->get_byte(); break;
-                case 2: typeSize = _in->get_short(); break;
-                case 4: typeSize = _in->get_int(); break;
-                case 8: typeSize = _in->get_long(); break;
-            }
+            size_t typeSize = get_value<size_t>(type);
 
             while(typeSize--)
             {
@@ -969,20 +915,7 @@ uint32_t decoder::read_uint()
         throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
-    switch (type.size())
-    {
-        case 0:
-            return type.directValue();
-        case 1:
-            return _in->get_byte();
-        case 2:
-            return _in->get_short();
-        case 4:
-            return _in->get_int();
-        case 8:
-            return _in->get_long();
-    }
-    return 0;
+    return get_value<uint32_t>(type);
 }
 
 uint64_t decoder::read_ulong()
@@ -992,20 +925,7 @@ uint64_t decoder::read_ulong()
         throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
-    switch (type.size())
-    {
-        case 0:
-            return type.directValue();
-        case 1:
-            return _in->get_byte();
-        case 2:
-            return _in->get_short();
-        case 4:
-            return _in->get_int();
-        case 8:
-            return _in->get_long();
-    }
-    return 0;
+    return get_value<uint64_t>(type);
 }
 
 int32_t decoder::read_int()
@@ -1015,20 +935,12 @@ int32_t decoder::read_int()
         throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
-    switch (type.size())
-    {
-        case 0:
-            return -type.directValue();
-        case 1:
-            return -_in->get_byte();
-        case 2:
-            return -_in->get_short();
-        case 4:
-            return -_in->get_int();
-        case 8:
-            return -_in->get_long();
-    }
-    return 0;
+    int32_t value = get_value<int32_t>(type);
+
+    if (type.major() == majorType::signedInteger)
+        return -value;
+
+    return value;
 }
 
 int64_t decoder::read_long()
@@ -1038,20 +950,11 @@ int64_t decoder::read_long()
         throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
-    switch (type.size())
-    {
-        case 0:
-            return -type.directValue();
-        case 1:
-            return -_in->get_byte();
-        case 2:
-            return -_in->get_short();
-        case 4:
-            return -_in->get_int();
-        case 8:
-            return -_in->get_long();
-    }
-    return 0;
+    int64_t value = get_value<uint64_t>(type);
+
+    if (type.major() == majorType::signedInteger)
+        return -value;
+    return value;
 }
 
 float decoder::read_float()
@@ -1079,16 +982,7 @@ std::string decoder::read_string()
         throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
-    size_t stringSize = 0;
-
-    switch (type.size())
-    {
-        case 0: stringSize = type.directValue(); break;
-        case 1: stringSize = _in->get_byte(); break;
-        case 2: stringSize = _in->get_short(); break;
-        case 4: stringSize = _in->get_int(); break;
-        case 8: stringSize = _in->get_long(); break;
-    }
+    size_t stringSize = get_value<size_t>(type);
 
     std::string tmpStr;
     tmpStr.resize(stringSize);
