@@ -24,7 +24,7 @@ namespace cbor {
 
 void output_dynamic::init(unsigned int initalCapacity) {
     this->_capacity = initalCapacity;
-    this->_buffer = new unsigned char[initalCapacity];
+    this->_buffer.resize(initalCapacity);
     this->_offset = 0;
 }
 
@@ -37,11 +37,10 @@ output_dynamic::output_dynamic(unsigned int inital_capacity) {
 }
 
 output_dynamic::~output_dynamic() {
-    delete[] _buffer;
 }
 
 const unsigned char *output_dynamic::data() const {
-    return _buffer;
+    return _buffer.data();
 }
 
 unsigned int output_dynamic::size() const {
@@ -53,7 +52,7 @@ void output_dynamic::put_byte(unsigned char value) {
         _buffer[_offset++] = value;
     } else {
         _capacity *= 2;
-        _buffer = (unsigned char *) realloc(_buffer, _capacity);
+        _buffer.resize(_capacity);
         _buffer[_offset++] = value;
     }
 }
@@ -61,15 +60,15 @@ void output_dynamic::put_byte(unsigned char value) {
 void output_dynamic::put_bytes(const unsigned char *data, int size) {
     while (_offset + size > _capacity) {
         _capacity *= 2;
-        _buffer = (unsigned char *) realloc(_buffer, _capacity);
+        _buffer.resize(_capacity);
     }
 
-    memcpy(_buffer + _offset, data, size);
+    memcpy(&_buffer[_offset], data, size);
     _offset += size;
 }
 std::string output_dynamic::toString() const
 {
-    return hexlify(_buffer, _offset);
+    return hexlify(_buffer.data(), _offset);
 }
 
 void output_dynamic::clear()

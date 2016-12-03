@@ -16,11 +16,12 @@
 */
 
 #include "output.h"
+#include <vector>
 
 namespace cbor {
     class output_dynamic : public output {
     private:
-        unsigned char *_buffer;
+        std::vector<unsigned char> _buffer;
         unsigned int _capacity;
         unsigned int _offset;
     public:
