@@ -52,8 +52,8 @@ namespace cbor {
 
     enum class simpleValue
     {
-        False,
-        True,
+        _False,
+        _True,
         Null,
         Undefined
     };
