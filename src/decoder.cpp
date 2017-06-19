@@ -40,6 +40,7 @@ std::string to_string(majorType value)
         case majorType::floatingPoint: return "floatingPoint";
         case majorType::simpleValue: return "simpleValue";
     }
+    throw std::runtime_error("invalid major type");
 }
 
 decoder::decoder(input &in)
@@ -83,11 +84,11 @@ int sizeFromAdditionalInfo(uint8_t in)
         case 27:
             return 8;
     }
+    throw std::runtime_error("invalid additional info: " + to_string(additionalInfo));
 }
 
 void decoder::traverse()
 {
-    unsigned int temp;
     while (1)
     {
         if (_state == STATE_TYPE)

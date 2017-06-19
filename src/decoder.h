@@ -105,6 +105,7 @@ namespace cbor {
                 case 4: return _in->get_int();
                 case 8: return _in->get_long();
             }
+            throw std::runtime_error("invalid type-size");
         }
 
     public:

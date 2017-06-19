@@ -54,7 +54,7 @@ int main() {
 
         cout << "Array with " << arrSize << " elements\n";
 
-        for (int i = 0; i < arrSize; ++i)
+        for (auto i = 0u; i < arrSize; ++i)
         {
             type = decoder.peekType();
             cout << "[" << i << "]\n";
@@ -79,10 +79,6 @@ int main() {
                 default:
                     decoder.skip();
             }
-
-
-
-
         }
     }
 

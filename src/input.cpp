@@ -86,13 +86,25 @@ unsigned long long input::get_long() {
 }
 
 float input::get_float() {
-    auto t = get_int();
-    return *(float*)&t;
+    union {
+        uint32_t uint32_val;
+        float float_val;
+    } u;
+
+    u.uint32_val = get_int();
+    //return *(float*)&t;
+    return u.float_val;
 }
 
 double input::get_double() {
-    auto t = get_long();
-    return *(double*)&t;
+    union {
+        uint64_t uint64_val;
+        double double_val;
+    } u;
+
+    u.uint64_val = get_long();
+    //return *(double*)&t;
+    return u.double_val;
 }
 
 void input::get_bytes(void *to, int count) {
