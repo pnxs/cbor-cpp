@@ -18,5 +18,8 @@ set(TEST_SOURCE_FILES
     src/tests.cpp
     )
 
-add_library(cborcpp OBJECT ${SOURCE_FILES})
+add_library(cborcpp STATIC ${SOURCE_FILES})
+target_include_directories(cborcpp
+        PUBLIC
+            src)
 add_executable(testing ${SOURCE_FILES} ${TEST_SOURCE_FILES})
