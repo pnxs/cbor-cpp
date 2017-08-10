@@ -12,6 +12,7 @@ add_library(cborcpp-object OBJECT src/encoder.cpp
         src/output_static.cpp
         src/buffer.cpp
         )
+set_property(TARGET cborcpp-object PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_library(cborcpp INTERFACE)
 
