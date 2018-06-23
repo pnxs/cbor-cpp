@@ -878,7 +878,7 @@ void decoder::skip()
         case majorType::utf8String:
         {
             size_t typeSize = get_value<size_t>(type);
-            _in->advance(typeSize + type.size());
+            _in->advance(typeSize);
         }
             break;
         case majorType::array:
