@@ -67,7 +67,7 @@ int main() {
                 case cbor::majorType::unsignedInteger:
                     cout << "Int: " << decoder.read_uint() << "\n";
                     break;
-                case cbor::majorType::signedInteger:
+                case cbor::majorType::negativeInteger:
                     cout << "Int: " << decoder.read_int() << "\n";
                     break;
                 case cbor::majorType::floatingPoint:

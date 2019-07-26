@@ -31,7 +31,7 @@ std::string to_string(majorType value)
     switch (value)
     {
         case majorType::unsignedInteger: return "unsignedInteger";
-        case majorType::signedInteger: return "signedInteger";
+        case majorType::negativeInteger: return "negativeInteger";
         case majorType::byteString: return "byteString";
         case majorType::utf8String: return "utf8String";
         case majorType::array: return "array";
@@ -811,7 +811,7 @@ type decoder::peekType() const
             typeEnum = majorType::unsignedInteger;
             break;
         case 1: // negative integer
-            typeEnum = majorType::signedInteger;
+            typeEnum = majorType::negativeInteger;
             break;
         case 2: // bytes
             typeEnum = majorType::byteString;
@@ -869,7 +869,7 @@ void decoder::skip()
     switch (type.major())
     {
         case majorType::unsignedInteger:
-        case majorType::signedInteger:
+        case majorType::negativeInteger:
         case majorType::tag:
         case majorType::floatingPoint:
             _in->advance(type.size());
@@ -932,14 +932,14 @@ uint64_t decoder::read_ulong()
 int32_t decoder::read_int()
 {
     auto type = peekType();
-    if (type.major() != majorType::signedInteger && type.major() != majorType::unsignedInteger)
+    if (type.major() != majorType::negativeInteger && type.major() != majorType::unsignedInteger)
         throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
     int32_t value = get_value<int32_t>(type);
 
-    if (type.major() == majorType::signedInteger)
-        return -value;
+    if (type.major() == majorType::negativeInteger)
+        return -(value + 1);
 
     return value;
 }
@@ -947,14 +947,14 @@ int32_t decoder::read_int()
 int64_t decoder::read_long()
 {
     auto type = peekType();
-    if (type.major() != majorType::signedInteger)
+    if (type.major() != majorType::negativeInteger)
         throw std::runtime_error("wrong type " + to_string(type.major()) + " " + __FILE__ + ":" + to_string(__LINE__));
     _in->advance(1);
 
     int64_t value = get_value<uint64_t>(type);
 
-    if (type.major() == majorType::signedInteger)
-        return -value;
+    if (type.major() == majorType::negativeInteger)
+        return -(value + 1);
     return value;
 }
 

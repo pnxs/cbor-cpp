@@ -69,7 +69,7 @@ void encoder::write_type_value(int major_type, unsigned long long value) {
         _out->put_byte((unsigned char) value);
     } else if (value < 4294967296ULL) {
         _out->put_byte((unsigned char) (major_type | 26));
-#if 1
+#if 0
         _out->put_byte((unsigned char) (value >> 24));
         _out->put_byte((unsigned char) (value >> 16));
         _out->put_byte((unsigned char) (value >> 8));
@@ -79,8 +79,9 @@ void encoder::write_type_value(int major_type, unsigned long long value) {
         _out->put_bytes((unsigned char*)&t, sizeof(t));
 #endif
     } else {
-#if 0
         _out->put_byte((unsigned char) (major_type | 27));
+#if 0
+
         _out->put_byte((unsigned char) (value >> 56));
         _out->put_byte((unsigned char) (value >> 48));
         _out->put_byte((unsigned char) (value >> 40));
@@ -106,7 +107,7 @@ void encoder::write_int(unsigned long long value) {
 
 void encoder::write_int(long long value) {
     if (value < 0) {
-        write_type_value(1, (unsigned long long) -value);
+        write_type_value(1, (unsigned long long) -value-1);
     } else {
         write_type_value(0, (unsigned long long) value);
     }
@@ -114,7 +115,7 @@ void encoder::write_int(long long value) {
 
 void encoder::write_int(int value) {
     if (value < 0) {
-        write_type_value(1, (unsigned int) -value);
+        write_type_value(1, (unsigned int) -value-1);
     } else {
         write_type_value(0, (unsigned int) value);
     }

@@ -40,7 +40,7 @@ namespace cbor {
     enum class majorType
     {
         unsignedInteger,
-        signedInteger,
+        negativeInteger,
         byteString,
         utf8String,
         array,
