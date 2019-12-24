@@ -26,9 +26,27 @@ target_include_directories(cborcpp
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         )
 
-install(TARGETS cborcpp EXPORT cborcppConfig)
-install(EXPORT cborcppConfig DESTINATION cmake)
-export(TARGETS cborcpp FILE cborcppConfig.cmake)
+install(TARGETS cborcpp 
+    EXPORT cborcpp-config
+)
+
+install(EXPORT cborcpp-config
+    FILE cborcpp-config.cmake
+    NAMESPACE cborcpp::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cborcpp
+)
+
+install(
+    FILES
+        ${CMAKE_BINARY_DIR}/cmake/cborcpp-config.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cborcpp
+)
+
+export(EXPORT cborcpp-config
+   FILE ${CMAKE_BINARY_DIR}/cmake/cborcpp-config.cmake
+   NAMESPACE cborcpp::
+)
+#export(TARGETS cborcpp FILE cborcppConfig.cmake)
 
 add_executable(testing
         $<TARGET_PROPERTY:cborcpp-object,SOURCES>
