@@ -15,7 +15,7 @@
 */
 
 #include "encoder.h"
-#include "endian.h"
+#include "portable_endian.h"
 
 namespace cbor {
 
