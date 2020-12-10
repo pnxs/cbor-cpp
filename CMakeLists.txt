@@ -1,36 +1,79 @@
-cmake_minimum_required(VERSION 3.5)
-project(cborcpp)
+# project
+cmake_minimum_required(VERSION 3.12)
+project(cborcpp VERSION 0.1.0 LANGUAGES CXX)
+set(TARGET_NAME cborcpp)
+set(EXPORT_NAME CBOR-CPP)
 
-set(CXX_STANDARD_REQUIRED true)
-set(CMAKE_CXX_STANDARD 14)
+add_library(${TARGET_NAME} STATIC)
+add_library(${EXPORT_NAME}::${EXPORT_NAME} ALIAS ${TARGET_NAME})
 
-add_library(cborcpp-object OBJECT src/encoder.cpp
+# properties
+target_sources(${TARGET_NAME}
+    PRIVATE
+        src/encoder.cpp
         src/decoder.cpp
         src/input.cpp
         src/listener_debug.cpp
         src/output_dynamic.cpp
         src/output_static.cpp
         src/buffer.cpp
-        )
-set_property(TARGET cborcpp-object PROPERTY POSITION_INDEPENDENT_CODE ON)
-
-add_library(cborcpp INTERFACE)
-
-target_sources(cborcpp
-        INTERFACE
-        $<TARGET_OBJECTS:cborcpp-object>
-        )
-
-target_include_directories(cborcpp
-        INTERFACE
+)
+target_include_directories(${TARGET_NAME}
+    PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        )
+)
+target_compile_features(${TARGET_NAME}
+    PUBLIC
+        cxx_std_14
+)
+target_compile_options(${TARGET_NAME}
+    PUBLIC
+        # use standard C++ exception model and assume no exceptions for external C functions
+        # note that this needs to be public because MSVC is disadvising from mixing exceptions modes
+        $<$<CXX_COMPILER_ID:MSVC>:/EHsc>
+    PRIVATE
+        $<$<AND:$<CXX_COMPILER_ID:GNU>,$<NOT:$<BOOL:${CMAKE_CXX_FLAGS}>>>:-O2 -Wall -Wextra -Wpedantic -Werror -Wno-deprecated-declarations>
+        $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<NOT:$<BOOL:${CMAKE_CXX_FLAGS}>>>:/W4>
+        # set Windows SDK to target Windows 10
+        $<$<CXX_COMPILER_ID:MSVC>:/DWINVER=0x0A00 /D_WIN32_WINNT=0x0A00>
+        # disable permissive mode to enable alternative logical operators
+        $<$<CXX_COMPILER_ID:MSVC>:/permissive->
+)
+#set_property(TARGET ${TARGET_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
+#target_compile_definitions(${TARGET_NAME}
+# <none>
+#)
+#target_link_libraries(${TARGET_NAME}
+# <none>
+#)
 
-install(TARGETS cborcpp EXPORT cborcppConfig)
-install(EXPORT cborcppConfig DESTINATION cmake)
-export(TARGETS cborcpp FILE cborcppConfig.cmake)
+# install
+include(GNUInstallDirs)
+set_target_properties(${TARGET_NAME} PROPERTIES EXPORT_NAME ${EXPORT_NAME})
 
-add_executable(testing
-        $<TARGET_PROPERTY:cborcpp-object,SOURCES>
-        src/tests.cpp)
+install(TARGETS ${TARGET_NAME}
+    EXPORT ${TARGET_NAME}-targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+install(EXPORT ${TARGET_NAME}-targets
+    NAMESPACE ${EXPORT_NAME}::
+    FILE
+        ${EXPORT_NAME}Targets.cmake
+    DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
+)
+install(FILES
+    ${CMAKE_SOURCE_DIR}/cmake/${EXPORT_NAME}Config.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
+)
+install(DIRECTORY
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cborcpp
+    PATTERN "*.h"
+)
 
+# tests
+add_executable(${TARGET_NAME}-tests
+    src/tests.cpp
+)
