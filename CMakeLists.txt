@@ -32,7 +32,7 @@ target_compile_options(${TARGET_NAME}
         # note that this needs to be public because MSVC is disadvising from mixing exceptions modes
         $<$<CXX_COMPILER_ID:MSVC>:/EHsc>
     PRIVATE
-        $<$<AND:$<CXX_COMPILER_ID:GNU>,$<NOT:$<BOOL:${CMAKE_CXX_FLAGS}>>>:-O2 -Wall -Wextra -Wpedantic -Werror -Wno-deprecated-declarations>
+        $<$<AND:$<CXX_COMPILER_ID:GNU>,$<NOT:$<BOOL:${CMAKE_CXX_FLAGS}>>>:-O2 -Wall -Wextra -Wpedantic -Wno-deprecated-declarations>
         $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<NOT:$<BOOL:${CMAKE_CXX_FLAGS}>>>:/W4>
         # set Windows SDK to target Windows 10
         $<$<CXX_COMPILER_ID:MSVC>:/DWINVER=0x0A00 /D_WIN32_WINNT=0x0A00>
